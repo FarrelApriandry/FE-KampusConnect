@@ -10,7 +10,8 @@ const String appTagline = 'Jual-beli aman antar mahasiswa';
 
 const String apiBaseUrl = String.fromEnvironment(
   'API_BASE_URL',
-  defaultValue: 'http://10.0.2.2:3000',
+  // Default: backend production KampusConnect (Vercel).
+  defaultValue: 'https://kc-api.relapri.my.id',
 );
 
 const Duration apiConnectTimeout = Duration(seconds: 20);

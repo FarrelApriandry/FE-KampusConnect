@@ -8,10 +8,12 @@ import '../features/auth/presentation/register_page.dart';
 import '../features/chat/presentation/inbox_page.dart';
 import '../features/explore/presentation/explore_page.dart';
 import '../features/home/presentation/home_page.dart';
+import '../features/listing/presentation/listing_detail_page.dart';
 import '../features/listing/presentation/sell_page.dart';
 import '../features/onboarding/presentation/shell_page.dart';
 import '../features/onboarding/presentation/splash_page.dart';
 import '../features/profile/presentation/me_page.dart';
+import '../features/transaction/presentation/transaction_detail_page.dart';
 
 /// Provider GoRouter. Auth redirect otomatis:
 /// - sesi loading        → /splash
@@ -111,6 +113,20 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
         ],
+      ),
+      // Detail listing di luar shell (full screen, tanpa bottom nav).
+      GoRoute(
+        path: '/listings/:id',
+        builder: (context, state) => ListingDetailPage(
+          id: state.pathParameters['id']!,
+        ),
+      ),
+      // Detail transaksi (dari Inbox).
+      GoRoute(
+        path: '/transactions/:id',
+        builder: (context, state) => TransactionDetailPage(
+          id: state.pathParameters['id']!,
+        ),
       ),
     ],
   );

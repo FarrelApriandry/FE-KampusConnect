@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../auth/presentation/auth_controller.dart';
+import '../../listing/presentation/listing_providers.dart';
 
 /// Halaman Me (profil instan) — placeholder Iterasi 1 untuk membuktikan
 /// alur auth bekerja (menampilkan user login + tombol logout).
@@ -15,6 +17,7 @@ class MePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authControllerProvider).valueOrNull;
     final user = auth?.user;
+    final myListings = ref.watch(myListingsProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Profil')),
@@ -84,18 +87,34 @@ class MePage extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 24),
-            const Card(
-              child: ListTile(
-                leading: Icon(Icons.list_alt_outlined),
-                title: Text('Listings saya'),
-                trailing: Text('Segera hadir'),
-              ),
-            ),
-            const Card(
-              child: ListTile(
-                leading: Icon(Icons.swap_horiz_outlined),
-                title: Text('Transaksi'),
-                trailing: Text('Segera hadir'),
+            Card(
+              margin: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.list_alt_outlined),
+                    title: Text('Listings saya'),
+                    trailing: myListings.when(
+                      data: (items) => Text('${items.length} iklan'),
+                      loading: () => const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      error: (e, _) => const Text('-'),
+                    ),
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.swap_horiz_outlined),
+                    title: Text('Transaksi'),
+                    trailing: const Icon(
+                      Icons.chevron_right_rounded,
+                      color: AppColors.textSecondary,
+                    ),
+                    onTap: () => context.go('/inbox'),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 24),
