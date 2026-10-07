@@ -1,5 +1,8 @@
 allprojects {
     repositories {
+        // Fast CN mirrors first (dev convenience; the build is network-bound otherwise).
+        maven { url = uri("https://mirrors.cloud.tencent.com/nexus/repository/maven-public/") }
+        maven { url = uri("https://maven.aliyun.com/repository/google") }
         google()
         mavenCentral()
     }

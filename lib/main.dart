@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
-import 'pages/drama_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'core/constants/app_constants.dart';
+import 'core/theme/app_theme.dart';
+import 'router/app_router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: KampusConnectApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class KampusConnectApp extends ConsumerWidget {
+  const KampusConnectApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+
+    return MaterialApp.router(
+      title: appName,
       debugShowCheckedModeBanner: false,
-      title: 'Drakor Vault',
-      theme: ThemeData.dark(),
-      home: const DramaPage(),
+      theme: AppTheme.light,
+      routerConfig: router,
     );
   }
 }
